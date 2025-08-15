@@ -1,12 +1,12 @@
 // -----------------------------------------------------------------------------
 // PWA
 // -----------------------------------------------------------------------------
-const cacheName = "app-" + "32870371874920aeccd3f0ac0830b6d86e5aa6a4";
+const cacheName = "app-" + "2cc43a1209781ab7f6537a52a1512004e88e08af";
 const resourcesToCache = ["https://raw.githubusercontent.com/maxence-charriere/go-app/master/docs/web/icon.png","/poc-go-app-github-pages/web/app.wasm","/poc-go-app-github-pages/wasm_exec.js","/poc-go-app-github-pages/manifest.webmanifest","/poc-go-app-github-pages/app.js","/poc-go-app-github-pages/app.css","/poc-go-app-github-pages"];
 
 self.addEventListener("install", async (event) => {
   try {
-    console.log("installing app worker 32870371874920aeccd3f0ac0830b6d86e5aa6a4");
+    console.log("installing app worker 2cc43a1209781ab7f6537a52a1512004e88e08af");
     await installWorker();
     await self.skipWaiting();
   } catch (error) {
@@ -23,7 +23,7 @@ self.addEventListener("activate", async (event) => {
   try {
     await deletePreviousCaches(); // Await cache cleanup
     await self.clients.claim(); // Ensure the service worker takes control of the clients
-    console.log("app worker 32870371874920aeccd3f0ac0830b6d86e5aa6a4 is activated");
+    console.log("app worker 2cc43a1209781ab7f6537a52a1512004e88e08af is activated");
   } catch (error) {
     console.error("error during activation:", error);
   }

@@ -11,6 +11,8 @@ import (
 	"github.com/maxence-charriere/go-app/v10/pkg/app"
 )
 
+const REPOSITORY_NAME = "poc-go-app-github-pages"
+
 type hello struct {
 	app.Compo
 	buildTimestamp string
@@ -24,7 +26,7 @@ func (h *hello) Render() app.UI {
 }
 
 func (h *hello) OnMount(ctx app.Context) {
-	resp, err := http.Get("/time.json")
+	resp, err := http.Get("/" + REPOSITORY_NAME + "/time.json")
 	if err != nil {
 		h.buildTimestamp = "Error fetching time"
 		log.Println("Error fetching time:", err)
@@ -49,8 +51,6 @@ func (h *hello) OnMount(ctx app.Context) {
 	log.Println("Build time:", timeData.Time)
 	h.buildTimestamp = timeData.Time
 }
-
-const REPOSITORY_NAME = "poc-go-app-github-pages"
 
 func main() {
 	var currentTime = time.Now().Format("2006-01-02 15:04:05")

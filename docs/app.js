@@ -13,7 +13,7 @@ var goappOnAppInstallChange = function () {
   goappAppInstallChangedBeforeWasmLoaded = true;
 };
 
-const goappEnv = {"GOAPP_INTERNAL_URLS":"null","GOAPP_ROOT_PREFIX":"/poc-go-app-github-pages","GOAPP_STATIC_RESOURCES_URL":"/poc-go-app-github-pages/web","GOAPP_VERSION":"32870371874920aeccd3f0ac0830b6d86e5aa6a4"};
+const goappEnv = {"GOAPP_INTERNAL_URLS":"null","GOAPP_ROOT_PREFIX":"/poc-go-app-github-pages","GOAPP_STATIC_RESOURCES_URL":"/poc-go-app-github-pages/web","GOAPP_VERSION":"2cc43a1209781ab7f6537a52a1512004e88e08af"};
 const goappLoadingLabel = "{progress}%";
 const goappWasmContentLength = "";
 const goappWasmContentLengthHeader = "";
