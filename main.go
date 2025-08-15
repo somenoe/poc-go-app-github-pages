@@ -1,8 +1,11 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/maxence-charriere/go-app/v10/pkg/app"
@@ -21,7 +24,7 @@ func (h *hello) Render() app.UI {
 }
 
 func (h *hello) OnMount(ctx app.Context) {
-	resp, err := http.Get("/time")
+	resp, err := http.Get("/time.json")
 	if err != nil {
 		h.buildTimestamp = "Error fetching time"
 		log.Println("Error fetching time:", err)
@@ -31,14 +34,24 @@ func (h *hello) OnMount(ctx app.Context) {
 
 	body := make([]byte, resp.ContentLength)
 	resp.Body.Read(body)
-	timeText := string(body)
 
-	log.Println("Build time:", timeText)
-	h.buildTimestamp = timeText
+	var timeData struct {
+		Time string `json:"time"`
+	}
+
+	err = json.Unmarshal(body, &timeData)
+	if err != nil {
+		h.buildTimestamp = "Error parsing time"
+		log.Println("Error parsing JSON:", err)
+		return
+	}
+
+	log.Println("Build time:", timeData.Time)
+	h.buildTimestamp = timeData.Time
 }
 
 func main() {
-	currentTime := time.Now().Format("2006-01-02 15:04:05")
+	var currentTime = time.Now().Format("2006-01-02 15:04:05")
 
 	app.Route("/", func() app.Composer {
 		return &hello{}
@@ -46,16 +59,19 @@ func main() {
 
 	app.RunWhenOnBrowser()
 
-	http.Handle("/", &app.Handler{
+	// Create time.json file
+	timeJSON := fmt.Sprintf(`{"time":"%s"}`, currentTime)
+	err := os.WriteFile("docs/time.json", []byte(timeJSON), 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = app.GenerateStaticWebsite("docs", &app.Handler{
 		Name:        "Hello",
 		Description: "An Hello World! example",
 	})
 
-	http.Handle("/time", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Current time: " + currentTime))
-	}))
-
-	if err := http.ListenAndServe(":8001", nil); err != nil {
+	if err != nil {
 		log.Fatal(err)
 	}
 }
